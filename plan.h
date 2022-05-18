@@ -24,51 +24,10 @@ struct Point {
     std::string id;
     std::string name;
     std::string location;
+    bool hidden;
     int floor;
     std::vector<Edge> edges;  // список смежных ребер
     int x, y;  // координаты пункта при отрисовке
-
-    Point() { point_type = PT_POINT; }
-};
-
-struct Exit : public Point {
-     Exit() { point_type = PT_EXIT; }
-};
-
-struct Wall : public Point {
-     Wall() { point_type = PT_WALL; }
-     Wall(Point& point) : Point(point) { point_type = PT_WALL; }
-};
-
-struct Door : public Point {
-     Door() { point_type = PT_DOOR; }
-     Door(Point& point) : Point(point) { point_type = PT_DOOR; }
-};
-
-struct Room : public Point {
-    //std::string location;  // left, right
-
-    Room() { point_type = PT_ROOM; name = id; }
-    Room(Point& point) : Point(point) { point_type = PT_ROOM; name = id; }
-};
-
-struct Toilet : public Room {
-    Toilet() { point_type = PT_TOILET; }
-    Toilet(Point& point) : Room(point) { point_type = PT_TOILET; }
-};
-
-struct Stairs : public Point {
-    //std::string location;  // left, right, along
-
-    Stairs() { point_type = PT_STAIRS; }
-    Stairs(Point& point) : Point(point) { point_type = PT_STAIRS; }
-};
-
-struct Elevator : public Point {
-    //std::string location;  // left, right, along
-
-    Elevator() { point_type = PT_ELEVATOR; }
-    Elevator(Point& point) : Point(point) { point_type = PT_ELEVATOR; }
 };
 
 enum MotionDir {
@@ -82,6 +41,10 @@ struct Path {
 };
 
 class Plan {
+    // массивы соответствуют enum MotionDir
+    const int dx[4] = {0, 1, 0, -1};
+    const int dy[4] = {-1, 0, 1, 0};
+
     const int DELTA = 50;  // половина единичного отрезка в пикселях при отрисовке
     std::map<std::string, int> points_by_id;  /* для каждого id хранится
         индекс точки в массиве points */
@@ -91,7 +54,8 @@ class Plan {
         список номеров пунктов */
     std::map<int, int> max_x, max_y;  // максимальные координаты для каждого этажа
 
-    int add_point (std::shared_ptr<Point> point);
+    int add_point (Point& point);
+    MotionDir rotate_dir (MotionDir dir, std::string rotate_str);
     std::string get_stairs_point_id (std::string stairs_id, int floor);
     std::string get_elevator_point_id (std::string elevator_id, int floor);
     int get_point_by_id (std::string point_id, int floor);
@@ -101,7 +65,7 @@ class Plan {
     void process_plan ();
 
 public:
-    std::vector<std::shared_ptr<Point>> points;
+    std::vector<Point> points;
     std::vector<Path> paths;
 
     Plan ()

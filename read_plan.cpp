@@ -3,15 +3,15 @@
 using namespace std;
 using namespace pugi;
 
-int Plan::add_point (shared_ptr<Point> point)
+int Plan::add_point (Point& point)
 {
     points.push_back(point);
     int point_index = points.size() - 1;
-    points_by_id[point->id] = point_index;
+    points_by_id[point.id] = point_index;
     return point_index;
 }
 
-MotionDir rotate_dir (MotionDir dir, string rotate_str)
+MotionDir Plan::rotate_dir (MotionDir dir, string rotate_str)
 {
     MotionDir new_dir;
     if (rotate_str == "forward")
@@ -57,55 +57,71 @@ int Plan::get_point_by_id (string point_id, int floor)
 void Plan::process_xml_node (xml_node& node, int path_index, int floor_num)
     // node.name() != "Path"
 {
-    Point point0;
-    point0.id = node.attribute("id").value();
-    point0.name = node.attribute("name").value();
-    point0.floor = floor_num;
+    Point point;
+    point.id = node.attribute("id").value();
+    point.name = node.attribute("name").value();
+    point.location = node.attribute("location").value();
+    int show_name = node.attribute("show_name").as_int();
+    point.hidden = !show_name;
+    point.floor = floor_num;
     int point_index;
-    // TODO: разобрать случай, когда точка с таким id уже есть
 
-    string node_name = node.name();
-    if (node_name == "Point") {
-        shared_ptr<Point> point(new Point(point0));
-        point_index = add_point(point);
+    // случай, когда точка с таким id уже есть
+    if (point.id != "" && points_by_id.find(point.id) != points_by_id.end())
+        // ключ point.id присутствует
+    {
+        point_index = get_point_by_id(point.id, floor_num);
     }
-    else if (node_name == "Room") {
-        shared_ptr<Room> room(new Room(point0));
-        room->location = node.attribute("location").value();
-        point_index = add_point(room);
-    }
-    else if (node_name == "Toilet") {
-        shared_ptr<Toilet> toilet(new Toilet(point0));
-        toilet->location = node.attribute("location").value();
-        point_index = add_point(toilet);
-    }
-    else if (node_name == "Stairs") {
-        shared_ptr<Stairs> stairs(new Stairs(point0));
-        stairs->location = node.attribute("location").value();
-        string stairs_id = stairs->id;
-        string stairs_point_id =
-            get_stairs_point_id(stairs_id, floor_num);
-        stairs->id = stairs_point_id;
-        point_index = add_point(stairs);
-        stairs_by_id[stairs_id].push_back(point_index);
-    }
-    else if (node_name == "Elevator") {
-        shared_ptr<Elevator> elevator(new Elevator(point0));
-        elevator->location = node.attribute("location").value();
-        string elevator_id = elevator->id;
-        string elevator_point_id =
-            get_elevator_point_id(elevator->id, floor_num);
-        elevator->id = elevator_point_id;
-        point_index = add_point(elevator);
-        elevators_by_id[elevator_id].push_back(point_index);
-    }
-    else if (node_name == "Wall") {
-        shared_ptr<Wall> wall(new Wall(point0));
-        point_index = add_point(wall);
-    }
-    else if (node_name == "Door") {
-        shared_ptr<Door> door(new Door(point0));
-        point_index = add_point(door);
+    else {
+        // точка с таким id отсутствует, и ее нужно добавить
+        string node_name = node.name();
+        if (node_name == "Point") {
+            point.point_type = PT_POINT;
+            point_index = add_point(point);
+        }
+        else if (node_name == "Room") {
+            point.point_type = PT_ROOM;
+            if (point.name == "")
+                point.name = point.id;
+            point.hidden = false;
+            point_index = add_point(point);
+        }
+        else if (node_name == "Toilet") {
+            point.point_type = PT_TOILET;
+            point.name = "Toilet";
+            point.hidden = false;
+            point_index = add_point(point);
+        }
+        else if (node_name == "Stairs") {
+            point.point_type = PT_STAIRS;
+            point.name = "Stairs";
+            point.hidden = false;
+            string stairs_id = point.id;
+            string stairs_point_id =
+                get_stairs_point_id(stairs_id, floor_num);
+            point.id = stairs_point_id;
+            point_index = add_point(point);
+            stairs_by_id[stairs_id].push_back(point_index);
+        }
+        else if (node_name == "Elevator") {
+            point.point_type = PT_ELEVATOR;
+            point.name = "Elevator";
+            point.hidden = false;
+            string elevator_id = point.id;
+            string elevator_point_id =
+                get_elevator_point_id(elevator_id, floor_num);
+            point.id = elevator_point_id;
+            point_index = add_point(point);
+            elevators_by_id[elevator_id].push_back(point_index);
+        }
+        else if (node_name == "Wall") {
+            point.point_type = PT_WALL;
+            point_index = add_point(point);
+        }
+        else if (node_name == "Door") {
+            point.point_type = PT_DOOR;
+            point_index = add_point(point);
+        }
     }
     if (path_index != -1) {
         // добавить пункт в список пунктов данного пути
@@ -162,10 +178,11 @@ void Plan::read_plan ()
             int exit_floor = plan_child.attribute("floor").as_int();
             string exit_id = plan_child.attribute("id").value();
             string exit_name = plan_child.attribute("name").value();
-            shared_ptr<Exit> exit(new Exit());
-            exit->id = exit_id;
-            exit->name = exit_name;
-            exit->floor = exit_floor;
+            Point exit;
+            exit.point_type = PT_EXIT;
+            exit.id = exit_id;
+            exit.name = exit_name;
+            exit.floor = exit_floor;
             add_point(exit);
         }
         else if (string(plan_child.name()) == "Floor") {

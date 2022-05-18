@@ -1,5 +1,5 @@
-<Plan>
-  <Exit id="1" floor="7" />
+<Plan object="FEFU">
+  <Exit id="1" name="Exit" floor="7" show_name="1" />
  
   <Floor num="7">
     <Path start="1" type="no_walls" dir="up">
@@ -9,21 +9,20 @@
       <Path start="near_exit1" rotate="right" type="right_wall">
         <Point id="fork_near_exit1" name="развилка" />
         <Path start="fork_near_exit1" rotate="left" type="no_walls">
-          <Point id="passage_level7_to_oriental_begin" name="переход в другой отсек" />
-          <Point id="passage_level7_to_oriental_end" name="переход в другой отсек" />
-        </Path>
-        
+          <Point id="passage_level7_to_oriental_begin" name="passage" />
+          <Point id="passage_level7_to_oriental_end" name="passage" />
+        </Path>        
       </Path>
       <Path start="near_exit1" type="no_walls" rotate="left">
         <Point id="near_exit1_left" name="слева от входа" />
         <Path start="near_exit1_left" type="left_right_walls" rotate="right">
-          <Point id="passage_level7_to_cafe_begin" name="переход" />
-          <Point id="passage_level7_to_cafe_end" name="переход" />
-          <Path start="passage_level7_to_cafe_end" type="left_right_wall" rotate="forward">
+          <Point id="passage_level7_to_cafe_begin" name="passage" show_name="1" />
+          <Point id="passage_level7_to_cafe_end" name="passage" show_name="1" />
+          <Path start="passage_level7_to_cafe_end" type="left_right_walls" rotate="forward">
             <Room id="D751" location="left" />
-            <Object id="D7_cafe" location="right" name="кафе" />
+            <Room id="D7_cafe" location="right" name="Cafe" />
             <Room id="D752" location="left" />
-            <Point id="corner_near_D752" name="поворот в коридор" />
+            <Point id="corner_near_D752" name="Turn to corridor" />
             <Path start="corner_near_D752" type="no_walls" rotate="right">
               <Stairs id="D755_4to7" location="along" />
               <Wall />

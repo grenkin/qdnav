@@ -8,13 +8,9 @@ void Plan::process_plan ()
 {
     vector<bool> points_visited(points.size());
     // инициализация: заполняем координаты нулями
-    for (auto p : points) {
-        p->x = 0;  p->y = 0;
+    for (auto& p : points) {
+        p.x = 0;  p.y = 0;
     }
-
-    // массивы соответствуют enum MotionDir
-    const int dx[4] = {0, 1, 0, -1};
-    const int dy[4] = {-1, 0, 1, 0};
 
     /*
     // устанавливаем координаты у самой первой точки
@@ -31,18 +27,18 @@ void Plan::process_plan ()
             MotionDir dir = path.dir;
 
             if (!points_visited[point_index]) {
-                if (points[point_index]->point_type == PT_WALL ||
-                    points[point_index]->point_type == PT_DOOR)
-                {
-                    points[point_index]->x = points[prev_point_index]->x;
-                    points[point_index]->y = points[prev_point_index]->y;
-                }
-                else {
-                    points[point_index]->x = points[prev_point_index]->x
+              //  if (points[point_index].point_type == PT_WALL /*||
+               //     points[point_index].point_type == PT_DOOR*/)
+              //  {
+              //      points[point_index].x = points[prev_point_index].x;
+              //      points[point_index].y = points[prev_point_index].y;
+              //  }
+             //   else {
+                    points[point_index].x = points[prev_point_index].x
                         + 2 * DELTA * dx[dir];
-                    points[point_index]->y = points[prev_point_index]->y
+                    points[point_index].y = points[prev_point_index].y
                         + 2 * DELTA * dy[dir];
-                }
+            //    }
                 points_visited[point_index] = true;
             }
 
@@ -51,12 +47,12 @@ void Plan::process_plan ()
             edge1.adj_point = point_index;
             edge1.path = path_index;
             edge1.reversed_path = false;
-            points[prev_point_index]->edges.push_back(edge1);
+            points[prev_point_index].edges.push_back(edge1);
             Edge edge2;
             edge2.adj_point = prev_point_index;
             edge2.path = path_index;
             edge2.reversed_path = true;
-            points[point_index]->edges.push_back(edge2);
+            points[point_index].edges.push_back(edge2);
         }
     }
 
@@ -69,12 +65,12 @@ void Plan::process_plan ()
                 edge1.adj_point = points_vec[j];
                 edge1.path = -1;
                 edge1.reversed_path = false;
-                points[points_vec[i]]->edges.push_back(edge1);
+                points[points_vec[i]].edges.push_back(edge1);
                 Edge edge2;
                 edge2.adj_point = points_vec[i];
                 edge2.path = -1;
                 edge2.reversed_path = false;
-                points[points_vec[j]]->edges.push_back(edge2);
+                points[points_vec[j]].edges.push_back(edge2);
             }
         }
     }
@@ -86,12 +82,12 @@ void Plan::process_plan ()
                 edge1.adj_point = points_vec[j];
                 edge1.path = -2;
                 edge1.reversed_path = false;
-                points[points_vec[i]]->edges.push_back(edge1);
+                points[points_vec[i]].edges.push_back(edge1);
                 Edge edge2;
                 edge2.adj_point = points_vec[i];
                 edge2.path = -2;
                 edge2.reversed_path = false;
-                points[points_vec[j]]->edges.push_back(edge2);
+                points[points_vec[j]].edges.push_back(edge2);
             }
         }
     }
@@ -99,19 +95,19 @@ void Plan::process_plan ()
     std::map<int, int> min_x, min_y;  // минимальные координаты для каждого этажа
     // приведение координат к положительным
     for (auto p : points) {
-        max_x[p->floor] = max(max_x[p->floor], p->x);
-        max_y[p->floor] = max(max_y[p->floor], p->y);
-        min_x[p->floor] = min(min_x[p->floor], p->x);
-        min_y[p->floor] = min(min_y[p->floor], p->y);
+        max_x[p.floor] = max(max_x[p.floor], p.x);
+        max_y[p.floor] = max(max_y[p.floor], p.y);
+        min_x[p.floor] = min(min_x[p.floor], p.x);
+        min_y[p.floor] = min(min_y[p.floor], p.y);
+    }
+    for (auto& p : points) {
+        p.x -= min_x[p.floor];
+        p.y -= min_y[p.floor];
     }
     for (auto p : points) {
-        p->x -= min_x[p->floor];
-        p->y -= min_y[p->floor];
-    }
-    for (auto p : points) {
-        max_x[p->floor] = max_x[p->floor] - min_x[p->floor];
-        min_x[p->floor] = 0;
-        max_y[p->floor] = max_y[p->floor] - min_y[p->floor];
-        min_y[p->floor] = 0;
+        max_x[p.floor] = max_x[p.floor] - min_x[p.floor];
+        min_x[p.floor] = 0;
+        max_y[p.floor] = max_y[p.floor] - min_y[p.floor];
+        min_y[p.floor] = 0;
     }
 }
