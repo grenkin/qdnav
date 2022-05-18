@@ -33,14 +33,18 @@ void Plan::process_route (vector<int> route)
     int i = 0, j;
     Edge edge = points[route[0]].get_edge(route[1]);
     int path_index = edge.path;
+    bool reversed_path = edge.reversed_path;
     while (i < route.size() && j < route.size()) {
         // нас интересует отрезок маршрута от i-й вершины до j-й,
         // на котором ребра маршрута из одного и того же пути
         j = i + 1;
         int new_path_index;
+        bool reversed_new_path;
+
         while (j < route.size()) {
             Edge edge = points[route[j - 1]].get_edge(route[j]);
             new_path_index = edge.path;
+            reversed_new_path = edge.reversed_path;
             if (new_path_index != path_index) {
                 j--;
                 break;
@@ -83,7 +87,11 @@ void Plan::process_route (vector<int> route)
             fout << "." << endl;
             if (new_path_index >= 0) {
                 MotionDir dir1 = paths[new_path_index].dir;
+                if (reversed_new_path)
+                    dir1 = rotate_dir(dir1, "back");
                 MotionDir dir2 = paths[path_index].dir;
+                if (reversed_path)
+                    dir2 = rotate_dir(dir2, "back");
                 MotionDir d = (MotionDir)((dir1 - dir2 + 4) % 4);
                 if (d > UP) {
                     switch (d) {
@@ -102,6 +110,7 @@ void Plan::process_route (vector<int> route)
         }
 
         path_index = new_path_index;
+        reversed_path = reversed_new_path;
         i = j;
         if (i == route.size() - 1)
             break;
