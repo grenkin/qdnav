@@ -33,7 +33,7 @@ void Plan::process_route (vector<int> route)
     int i = 0, j;
     int path_index = -3;
     while (i < route.size() && j < route.size()) {
-        // нас интересует отрезок маршрута от i-й вершины до j-й,
+        // нас интересует отрезок маршрута от i-й вершины до (j-1)-й,
         // на котором ребра маршрута из одного и того же пути
         j = i + 1;
         while (j < route.size()) {

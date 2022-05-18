@@ -72,31 +72,36 @@ void Plan::draw_floor_plan (int floor, const char* output_file)
             if (edge.reversed_path)
                 continue;
             int dir = paths[edge.path].dir;
+            /*if (paths[edge.path].path_points[0] == edge.adj_point
+                || paths[edge.path].path_points[0] == i)
+            {
+                continue;
+            }*/
             string path_type = paths[edge.path].path_type;
             switch (dir) {
             case UP:
                 if (path_type == "left_right_walls" || path_type == "left_wall")
-                    img.draw_line(x - DELTA, y - DELTA, x - DELTA, y + DELTA, black);
+                    img.draw_line(x - DELTA, y - 2 * DELTA, x - DELTA, y, black);
                 if (path_type == "left_right_walls" || path_type == "right_wall")
-                    img.draw_line(x + DELTA, y - DELTA, x + DELTA, y + DELTA, black);
+                    img.draw_line(x + DELTA, y - 2 * DELTA, x + DELTA, y, black);
                 break;
             case LEFT:
                 if (path_type == "left_right_walls" || path_type == "left_wall")
-                    img.draw_line(x - DELTA, y + DELTA, x + DELTA, y + DELTA, black);
+                    img.draw_line(x, y + DELTA, x - 2 * DELTA, y + DELTA, black);
                 if (path_type == "left_right_walls" || path_type == "right_wall")
-                    img.draw_line(x - DELTA, y - DELTA, x + DELTA, y - DELTA, black);
+                    img.draw_line(x, y - DELTA, x - 2 * DELTA, y - DELTA, black);
                 break;
             case RIGHT:
                 if (path_type == "left_right_walls" || path_type == "left_wall")
-                    img.draw_line(x - DELTA, y - DELTA, x + DELTA, y - DELTA, black);
+                    img.draw_line(x, y - DELTA, x + 2 * DELTA, y - DELTA, black);
                 if (path_type == "left_right_walls" || path_type == "right_wall")
-                    img.draw_line(x - DELTA, y + DELTA, x + DELTA, y + DELTA, black);
+                    img.draw_line(x, y + DELTA, x + 2 * DELTA, y + DELTA, black);
                 break;
             case DOWN:
                 if (path_type == "left_right_walls" || path_type == "left_wall")
-                    img.draw_line(x + DELTA, y - DELTA, x + DELTA, y + DELTA, black);
+                    img.draw_line(x - DELTA, y, x - DELTA, y + 2 * DELTA, black);
                 if (path_type == "left_right_walls" || path_type == "right_wall")
-                    img.draw_line(x - DELTA, y - DELTA, x - DELTA, y + DELTA, black);
+                    img.draw_line(x + DELTA, y, x + DELTA, y + 2 * DELTA, black);
                 break;
             }
         }

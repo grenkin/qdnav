@@ -24,10 +24,8 @@ int main()
         }*/
 
 
-        plan.draw_floor_points(7, "7.bmp");
-        plan.draw_floor_plan(7, "7_.bmp");
-        plan.draw_floor_points(9, "9.bmp");
-       // plan.draw_floor_plan(9, "9_.bmp");
+        plan.draw_floor_plan(3, "3.bmp");
+
     }
     catch (const char* msg) {
         cerr << msg << endl;

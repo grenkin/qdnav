@@ -1,101 +1,98 @@
-<Plan object="FEFU">
-  <Exit id="1" name="Exit" floor="7" show_name="1" />
+<Plan object="VSUES">
+  <Exit id="2" name="Exit" floor="3" show_name="1" />
  
-  <Floor num="7">
-    <Path start="1" type="no_walls" dir="up">
-      <Point id="near_exit1" name="у входа" />
-      <Stairs id="enter1_6to9" location="along" />
-      <Wall/>
-      <Path start="near_exit1" rotate="right" type="right_wall">
-        <Point id="fork_near_exit1" name="развилка" />
-        <Path start="fork_near_exit1" rotate="left" type="no_walls">
-          <Point id="passage_level7_to_oriental_begin" name="passage" />
-          <Point id="passage_level7_to_oriental_end" name="passage" />
-        </Path>        
+  <Floor num="3">
+    <Path start="2" type="left_right_walls" dir="up">
+      <Point id="near_exit2" name="у входа 2" />
+      <Path start="near_exit2" rotate="left" type="no_walls">
+        <Point name="Underground" show_name="1" />
       </Path>
-      <Path start="near_exit1" type="no_walls" rotate="left">
-        <Point id="near_exit1_left" name="слева от входа" />
-        <Path start="near_exit1_left" type="left_right_walls" rotate="right">
-          <Point id="passage_level7_to_cafe_begin" name="passage" show_name="1" />
-          <Point id="passage_level7_to_cafe_end" name="passage" show_name="1" />
-          <Path start="passage_level7_to_cafe_end" type="left_right_walls" rotate="forward">
-            <Room id="D751" location="left" />
-            <Room id="D7_cafe" location="right" name="Cafe" />
-            <Room id="D752" location="left" />
-            <Point id="corner_near_D752" name="Turn to corridor" />
-            <Path start="corner_near_D752" type="no_walls" rotate="right">
-              <Stairs id="D755_4to7" location="along" />
-              <Wall />
-            </Path>
-            <Path start="corner_near_D752" type="left_right_walls" rotate="left">
-              <Room id="D755" location="left" />
-              <Room id="D756" location="left" />
-              <Elevator id="D757_3to7" location="right" />
-              <Room id="D757" location="left" />
-              <Toilet location="right" />
-              <Room id="D758" location="left" />
-              <Room id="D759" location="left" />
-              <Room id="D773" location="right" />
-              <Room id="D760" location="left" />
-              <Room id="D772" location="right" />
-              <Room id="D761" location="left" />
-              <Room id="D771" location="right" />
-              <Room id="D762" location="left" />
-              <Room id="D770" location="right" />
-              <Room id="D763" location="left" />
-              <Room id="D769" location="right" />
-              <Room id="D764" location="left" />
-              <Room id="D768" location="right" />
-              <Room id="D765" location="left" />
-              <Room id="D767" location="right" />
-              <Room id="D766" location="left" />
-              <Wall />
+      <Room name="Coffee" location="left" />
+      <Door/>
+      <Point id="exit2_exit2" name="Exit" />
+      <Path rotate="left" start="exit2_exit2" type="no_walls">
+        <Point/>
+        <Point id="exit2_exit2_left" />
+        <Path rotate="right" type="left_wall" start="exit2_exit2_left">
+          <Room name="Stairs" location="left" />
+          <Room name="Buffet" location="left" />
+          <Room name="Golub. pad'" location="left" />
+          <Door id="door_golub_pad" />
+          <Path rotate="left" type="left_right_walls" start="door_golub_pad">
+            <Point id="corner1" name="Cafe" location="left" show_name="1" />
+            <Room location="right" name="Stud. otr." />
+            <Stairs id="stairs1" />
+            <Path start="corner1" rotate="right" type="left_right_walls">
+               <Point />
+               <Point id="corner2" />
+               <Path start="corner2" rotate="forward" type="left_wall">
+                 <Room location="left" id="1306" name="ToiletM" />
+                 <Room location="left" id="1308" name="ToiletW" />
+	         <Path start="1308" rotate="forward" type="left_right_walls">
+	           <Room name="Blinnaya" />
+                   <Door id="kaf_mark_torg_begin" name="Kaf. mark. i torg." show_name="1" />
+                   <Path rotate="forward" start="kaf_mark_torg_begin" type="left_right_walls">
+                     <Room id="4301" location="right" />
+                     <Room id="4303" location="right" />
+                     <Room id="4305" location="right" />
+                     <Room id="4307" location="right" />
+                     <Room id="4309" location="right" />
+                     <Room id="4311" location="right" />
+                     <Room id="4313" location="right" />
+                     <Room id="4315" location="right" />
+                     <Path rotate="left" start="4313" type="left_right_walls">
+                       <Door name="Kaf. transp. pr." show_name="1" />
+                       <Room location="left" name="4302" />
+                       <Stairs id="stairs2" />
+                     </Path>
+                   </Path>
+                 </Path>
+               </Path>
             </Path>
           </Path>
         </Path>
       </Path>
-
-
+      <Path rotate="right" start="exit2_exit2" type="no_walls">
+        <Point/>
+        <Point id="exit2_exit2_right" />
+        <Path rotate="left" type="right_wall" start="exit2_exit2_right">
+          <Room name="Buffet" location="right" />
+          <Room name="Tochka kip." location="right" />  
+          <Room name="Dining-hall" location="right" />
+          <Room name="Dining-hall" location="right" />
+          <Room id="1311" location="right" />
+          <Room id="1313" name="1313" location="right" />
+          <Path start="1313" rotate="left" type="left_right_walls">
+            <Room location="left" id="1309" />
+            <Room location="right" id="1312" />
+            <Room location="left" id="1307" />
+            <Room location="right" id="1310" />
+          </Path>
+          <Path start="1313" rotate="forward" type="left_right_walls">
+            <Room location="right" id="1315" />
+            <Room location="right" id="1317" />
+            <Room location="left" id="1314" />
+            <Room location="left" id="1316" />
+            <Room location="right" id="1319" />
+            <Room location="left" id="1318" />
+            <Room location="left" id="1320" />
+            <Room location="left" id="1322" />
+            <Room location="left" id="1324" />
+            <Room location="right" id="1321" />
+            <Room location="left" id="1326" />
+            <Room location="right" id="1323" />
+            <Room location="left" id="1328" />
+            <Room location="right" id="1325" />
+            <Room location="left" id="1330" />
+            <Room location="right" id="1327" />
+            <Room location="left" id="1332" />
+            <Room location="right" id="1331" />
+            <Room location="left" id="1334" />
+            <Stairs id="big_stairs" />
+          </Path>
+        </Path>
+      </Path>
     </Path>
   </Floor>
 
-  <Floor num="9">
-    <Stairs id="enter1_6to9" location="along" />
-
-    <Stairs id="enter1_6to9" location="along" />
-    <Path start="enter1_6to9" type="left_right_walls" dir="right">
-      <Point id="passage_to_imct_begin" name="вход в ИМКТ" />
-      <Path start="enter1_6to9" type="left_right_walls" rotate="back">
-        <Point id="passage_level9_to_oriental_begin" name="вход в ВИ" /> 
-      </Path>
-      <Path start="passage_to_imct_begin" type="left_right_walls" rotate="forward">
-        <Room id="D932" location="left" />
-        <Room id="D961" location="right" />
-        <Room id="D933" location="left" />
-        <Elevator id="D933_9to7" location="right" />
-        <Room id="D935" location="left" />
-        <Toilet location="right" />
-        <Room id="D936" location="left" />
-        <Room id="D937" location="left" />
-        <Room id="D956" location="right" />
-        <Room id="D938" location="left" />
-        <Room id="D955" location="right" />        
-        <Room id="D940" location="left" />
-        <Room id="D954" location="right" />             
-        <Room id="D941" location="left" />
-        <Room id="D953" location="right" />        
-        <Room id="D942" location="left" />
-        <Room id="D952" location="right" />        
-        <Room id="D951" location="right" />        
-        <Room id="D943" location="left" />
-        <Room id="D950" location="right" />        
-        <Room id="D944" location="left" />
-        <Room id="D945" location="left" />
-        <Room id="D949" location="right" />       
-        <Room id="D946" location="left" />
-        <Room id="D948" location="right" />        
-        <Room id="D947" location="left" />
-      </Path>
-    </Path>    
-  </Floor>
 </Plan>
