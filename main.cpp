@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "plan.h"
 
 using namespace std;
@@ -7,6 +8,12 @@ int main()
 {
     try {
         Plan plan;
+        ifstream fin("input.txt");
+        string point_from, point_to;
+        fin >> point_from >> point_to;
+        cout << "From " << point_from << " to " << point_to << endl;
+        vector<int> route = plan.find_route(point_from, point_to);
+        plan.process_route(route);
 
         /*for (int i = 0; i < plan.points.size(); ++i) {
             cout << "point " << plan.points[i].id << endl;
@@ -20,6 +27,7 @@ int main()
         plan.draw_floor_points(7, "7.bmp");
         plan.draw_floor_plan(7, "7_.bmp");
         plan.draw_floor_points(9, "9.bmp");
+       // plan.draw_floor_plan(9, "9_.bmp");
     }
     catch (const char* msg) {
         cerr << msg << endl;

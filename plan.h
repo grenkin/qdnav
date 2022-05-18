@@ -73,6 +73,8 @@ public:
         read_plan();
         process_plan();
     }
+    std::vector<int> find_route (std::string from_id, std::string to_id);
+    void process_route (std::vector<int> route);
     void draw_floor_points (int floor, const char* output_file);
     void draw_floor_plan (int floor, const char* output_file);
 };
