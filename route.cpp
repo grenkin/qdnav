@@ -28,77 +28,83 @@ void Plan::process_route (vector<int> route)
 {
     ofstream fout("output.txt");
     /*for (int i = 0; i < route.size(); ++i) {
-        fout << points[route[i]].id << endl;
+        fout << points[route[i]].id << "  " << points[route[i]].name << endl;
     }*/
     int i = 0, j;
-    int path_index = -3;
+    Edge edge = points[route[0]].get_edge(route[1]);
+    int path_index = edge.path;
     while (i < route.size() && j < route.size()) {
-        // нас интересует отрезок маршрута от i-й вершины до (j-1)-й,
+        // нас интересует отрезок маршрута от i-й вершины до j-й,
         // на котором ребра маршрута из одного и того же пути
         j = i + 1;
+        int new_path_index;
         while (j < route.size()) {
             Edge edge = points[route[j - 1]].get_edge(route[j]);
-            int new_path_index = edge.path;
-            bool reversed_path = edge.reversed_path;
-            if (path_index == -3)
-                path_index = new_path_index;
-            if (j == route.size() - 1 || new_path_index != path_index) {
-                if (path_index == -1) {
-                    fout << "Пройти по лестнице." << endl;
-                }
-                else if (path_index == -2) {
-                    fout << "Проехать на лифте." << endl;
-                }
-                else {
-                    if (new_path_index >= 0) {
-                        MotionDir dir1 = paths[new_path_index].dir;
-                        MotionDir dir2 = paths[path_index].dir;
-                        MotionDir d = (MotionDir)((dir1 - dir2 + 4) % 4);
-                        if (d > UP) {
-                            switch (d) {
-                            case LEFT:
-                                fout << "Поверните налево." << endl;
-                                break;
-                            case DOWN:
-                                fout << "Поверните назад." << endl;
-                                break;
-                            case RIGHT:
-                                fout << "Поверните направо." << endl;
-                                break;
-                            }
-                        }
-                    }
-                    fout << "Пройти от " << points[route[i]].name << " до "
-                        << points[route[j - 1]].name;
-                    if (j > i + 2) {
-                        bool hidden = true;
-                        for (int k = i + 1; k <= j - 2; ++k) {
-                            if (!points[route[k]].hidden) {
-                                hidden = false;
-                                break;
-                            }
-                        }
-                        if (!hidden) {
-                            fout << " мимо ";
-                            bool flag = false;
-                            for (int k = i + 1; k <= j - 2; ++k) {
-                                if (!points[route[k]].hidden) {
-                                    if (flag)
-                                        fout << ", ";
-                                    flag = true;
-                                    fout << points[route[k]].name;
-                                }
-                            }
-                        }
-                    }
-                    fout << "." << endl;
-                }
-                i = j;
-                path_index = new_path_index;
+            new_path_index = edge.path;
+            if (new_path_index != path_index) {
+                j--;
                 break;
             }
             ++j;
         }
+        if (j == route.size())
+            j--;
+
+        if (path_index == -1) {
+            fout << "Пройти по лестнице." << endl;
+        }
+        else if (path_index == -2) {
+            fout << "Проехать на лифте." << endl;
+        }
+        else {
+            fout << "Пройти от " << points[route[i]].name << " до "
+                << points[route[j]].name;
+            if (j > i + 1) {
+                bool hidden = true;
+                for (int k = i + 1; k <= j - 1; ++k) {
+                    if (!points[route[k]].hidden) {
+                        hidden = false;
+                        break;
+                    }
+                }
+                if (!hidden) {
+                    fout << " мимо ";
+                    bool flag = false;
+                    for (int k = i + 1; k <= j - 1; ++k) {
+                        if (!points[route[k]].hidden) {
+                            if (flag)
+                                fout << ", ";
+                            flag = true;
+                            fout << points[route[k]].name;
+                        }
+                    }
+                }
+            }
+            fout << "." << endl;
+            if (new_path_index >= 0) {
+                MotionDir dir1 = paths[new_path_index].dir;
+                MotionDir dir2 = paths[path_index].dir;
+                MotionDir d = (MotionDir)((dir1 - dir2 + 4) % 4);
+                if (d > UP) {
+                    switch (d) {
+                    case LEFT:
+                        fout << "Поверните налево." << endl;
+                        break;
+                    case DOWN:
+                        fout << "Поверните назад." << endl;
+                        break;
+                    case RIGHT:
+                        fout << "Поверните направо." << endl;
+                        break;
+                    }
+                }
+            }
+        }
+
+        path_index = new_path_index;
+        i = j;
+        if (i == route.size() - 1)
+            break;
     }
 
 }

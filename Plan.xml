@@ -12,7 +12,7 @@
       <Point id="exit2_exit2" name="Exit" />
       <Path rotate="left" start="exit2_exit2" type="no_walls">
         <Point/>
-        <Point id="exit2_exit2_left" />
+        <Point id="exit2_exit2_left" name="Corner" />
         <Path rotate="right" type="left_wall" start="exit2_exit2_left">
           <Room name="Stairs" location="left" />
           <Room name="Buffet" location="left" />
@@ -24,7 +24,7 @@
             <Stairs id="stairs1" />
             <Path start="corner1" rotate="right" type="left_right_walls">
                <Point />
-               <Point id="corner2" />
+               <Point id="corner2" name="Corner" />
                <Path start="corner2" rotate="forward" type="left_wall">
                  <Room location="left" id="1306" name="ToiletM" />
                  <Room location="left" id="1308" name="ToiletW" />
@@ -54,7 +54,7 @@
       </Path>
       <Path rotate="right" start="exit2_exit2" type="no_walls">
         <Point/>
-        <Point id="exit2_exit2_right" />
+        <Point id="exit2_exit2_right" name="Corner" />
         <Path rotate="left" type="right_wall" start="exit2_exit2_right">
           <Room name="Buffet" location="right" />
           <Room name="Tochka kip." location="right" />  
@@ -67,6 +67,7 @@
             <Room location="right" id="1312" />
             <Room location="left" id="1307" />
             <Room location="right" id="1310" />
+            <Point id="corner2" />
           </Path>
           <Path start="1313" rotate="forward" type="left_right_walls">
             <Room location="right" id="1315" />
