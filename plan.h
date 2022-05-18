@@ -28,6 +28,8 @@ struct Point {
     int floor;
     std::vector<Edge> edges;  // список смежных ребер
     int x, y;  // координаты пункта при отрисовке
+
+    Edge get_edge (int adj_point_index);
 };
 
 enum MotionDir {
