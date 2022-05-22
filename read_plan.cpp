@@ -41,11 +41,15 @@ int Plan::get_point_by_id (string point_id, int floor)
 {
     int point_index;
     // проверяем, есть ли лестница или лифт с таким id
-    string stairs_point_id = get_stairs_point_id(point_id, floor);
+    string stairs_point_id = get_stairs_point_id(point_id, floor),
+        elevator_point_id = get_elevator_point_id(point_id, floor);
     if (points_by_id.find(stairs_point_id) != points_by_id.end())
         // ключ stairs_point_id присутствует
     {
         point_index = points_by_id[stairs_point_id];
+    }
+    else if (points_by_id.find(elevator_point_id) != points_by_id.end()) {
+        point_index = points_by_id[elevator_point_id];
     }
     else
         point_index = points_by_id[point_id];
