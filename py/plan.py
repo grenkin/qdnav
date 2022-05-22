@@ -17,6 +17,8 @@ class Point:
         self.id = ''
         self.name = ''
         self.hidden = False
+        self.edges = []
+        # если edge['path'] == -1, это лестница, если -2, то лифт
 
 
 class Path:
@@ -166,7 +168,38 @@ class Plan:
                         self.process_xml_node(floor_child, -1, floor_num)
 
     def process_plan(self):
-        pass
+        for path_index in range(len(self.paths)):
+            for i in range(len(self.paths[path_index].path_points)):
+                if i == 0:
+                    continue
+                point_index = self.paths[path_index].path_points[i]
+                prev_point_index = self.paths[path_index].path_points[i - 1]
+                motion_dir = self.paths[path_index].dir
+                edge1 = {'adj_point': point_index, 'path': path_index, 'reversed_path': False}
+                self.points[prev_point_index].edges.append(edge1)
+                edge2 = {'adj_point': prev_point_index, 'path': path_index, 'reversed_path': True}
+                self.points[point_index].edges.append(edge2)
+
+                # перебираем все лестницы и лифты, проводим ребра
+                for stairs_id, stairs_list in self.stairs_by_id.items():
+                    for i in range(len(stairs_list)):
+                        for j in range(i+1, len(stairs_list)):
+                            point_index = stairs_list[i]
+                            edge1 = {'adj_point': stairs_list[j], 'path': -1, 'reversed_path': False}
+                            self.points[point_index].edges.append(edge1)
+                            point_index = stairs_list[j]
+                            edge1 = {'adj_point': stairs_list[i], 'path': -1, 'reversed_path': False}
+                            self.points[point_index].edges.append(edge2)
+
+                for elevator_id, elevators_list in self.elevators_by_id.items():
+                    for i in range(len(elevators_list)):
+                        for j in range(i+1, len(elevators_list)):
+                            point_index = elevators_list[i]
+                            edge1 = {'adj_point': elevators_list[j], 'path': -2, 'reversed_path': False}
+                            self.points[point_index].edges.append(edge1)
+                            point_index = elevators_list[j]
+                            edge1 = {'adj_point': elevators_list[i], 'path': -2, 'reversed_path': False}
+                            self.points[point_index].edges.append(edge2)
 
     def __init__(self, xml_file):
         self.points = []
