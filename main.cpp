@@ -22,7 +22,16 @@ int main()
                 cout << plan.points[plan.points[i].edges[j].adj_point].id << " ; ";
             cout << endl;
         }*/
-
+        /*
+        for (int i = 0; i < plan.paths.size(); ++i) {
+            cout << "path " << i << endl;
+            for (int j = 0; j < plan.paths[i].path_points.size(); ++j) {
+                //cout << plan.points[plan.paths[i].path_points[j]].id << ", ";
+                cout << plan.paths[i].path_points[j] << ", ";
+            }
+            cout << endl;
+        }
+        */
 
         plan.draw_floor_plan(3, "3.bmp");
 

@@ -1,20 +1,15 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
 from plan import Plan
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
 plan1 = Plan("Plan.xml")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+#for p in plan1.paths:
+#    print(p.path_points)
+
+from_id = "2"
+to_id = "1308"
+route = plan1.find_route(from_id, to_id)
+#print(route)
+route_text = plan1.process_route(route)
+for str in route_text:
+    print(str)

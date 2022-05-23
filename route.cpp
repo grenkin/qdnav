@@ -30,7 +30,7 @@ void Plan::process_route (vector<int> route)
     /*for (int i = 0; i < route.size(); ++i) {
         fout << points[route[i]].id << "  " << points[route[i]].name << endl;
     }*/
-    int i = 0, j;
+    int i = 0, j = 0;
     Edge edge = points[route[0]].get_edge(route[1]);
     int path_index = edge.path;
     bool reversed_path = edge.reversed_path;
