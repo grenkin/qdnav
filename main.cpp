@@ -14,25 +14,32 @@ int main()
         cout << "From " << point_from << " to " << point_to << endl;
         vector<int> route = plan.find_route(point_from, point_to);
         plan.process_route(route);
-
-        /*for (int i = 0; i < plan.points.size(); ++i) {
+        /*
+        for (int i = 0; i < route.size(); ++i) {
+            cout << plan.points[route[i]].id << endl;
+        }
+        cout << "\npoints_by_id:\n";
+        for (auto [key, value] : plan.points_by_id) {
+            cout << key << " " << value << endl;
+        }
+        for (int i = 0; i < plan.points.size(); ++i) {
             cout << "point " << plan.points[i].id << endl;
             cout << "edges: ";
             for (int j = 0; j < plan.points[i].edges.size(); ++j)
                 cout << plan.points[plan.points[i].edges[j].adj_point].id << " ; ";
             cout << endl;
-        }*/
-        /*
+        }
         for (int i = 0; i < plan.paths.size(); ++i) {
             cout << "path " << i << endl;
             for (int j = 0; j < plan.paths[i].path_points.size(); ++j) {
                 //cout << plan.points[plan.paths[i].path_points[j]].id << ", ";
-                cout << plan.paths[i].path_points[j] << ", ";
+                cout << plan.points[plan.paths[i].path_points[j]].id << ", ";
             }
             cout << endl;
         }
         */
 
+        plan.draw_floor_plan(1, "1.bmp");
         plan.draw_floor_plan(3, "3.bmp");
 
     }

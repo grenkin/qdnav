@@ -47,7 +47,7 @@ class Plan {
     const int dx[4] = {0, 1, 0, -1};
     const int dy[4] = {-1, 0, 1, 0};
 
-    const int DELTA = 50;  // половина единичного отрезка в пикселях при отрисовке
+    const int DELTA = 30;  // половина единичного отрезка в пикселях при отрисовке
     std::map<std::string, int> points_by_id;  /* для каждого id хранится
         индекс точки в массиве points */
     std::map<std::string, std::vector<int>> stairs_by_id;  /* для каждой лестницы

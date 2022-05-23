@@ -92,13 +92,15 @@ void Plan::process_xml_node (xml_node& node, int path_index, int floor_num)
         }
         else if (node_name == "Toilet") {
             point.point_type = PT_TOILET;
-            point.name = "Toilet";
+            if (point.name == "")
+                point.name = "Toilet";
             point.hidden = false;
             point_index = add_point(point);
         }
         else if (node_name == "Stairs") {
             point.point_type = PT_STAIRS;
-            point.name = "Stairs";
+            if (point.name == "")
+                point.name = "Stairs";
             point.hidden = false;
             string stairs_id = point.id;
             string stairs_point_id =
@@ -109,7 +111,8 @@ void Plan::process_xml_node (xml_node& node, int path_index, int floor_num)
         }
         else if (node_name == "Elevator") {
             point.point_type = PT_ELEVATOR;
-            point.name = "Elevator";
+            if (point.name == "")
+                point.name = "Elevator";
             point.hidden = false;
             string elevator_id = point.id;
             string elevator_point_id =
